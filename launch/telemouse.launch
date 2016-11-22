@@ -26,4 +26,6 @@
   </node>
   </group>
 
+  <node name="telemouse_face" pkg="telemouse" type="telemouse_face.py"/>
+
 </launch>
