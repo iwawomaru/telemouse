@@ -12,4 +12,6 @@
   </node>
   </group>
 
+  <node name="teleserver_key" pkg="telemouse" type="teleserver_key.py"/>
+
 </launch>
