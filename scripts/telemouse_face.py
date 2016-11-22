@@ -16,7 +16,7 @@ rbias = np.array([150, 0])
 
 pygame.init()
 screen = pygame.display.set_mode(SCREEN_SIZE)
-pygame.display.set_caption("telemouse")
+pygame.display.set_caption("telemouse_face")
 
 dname = os.path.join(os.path.abspath(os.path.dirname(__file__)), "../img/")
 
