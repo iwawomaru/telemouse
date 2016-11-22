@@ -1,9 +1,4 @@
 <launch>
-  <node name="image_view" pkg="image_view" type="image_view" respawn="false" output="screen">
-    <remap from="image" to="/usb_cam/image_raw"/>
-    <param name="autosize" value="true" />
-  </node>
-
   <arg name="ns" default="audio"/>
 
   <group ns="$(arg ns)">
@@ -11,5 +6,4 @@
     <param name="dst" value="alsasink"/>
   </node>
   </group>
-
 </launch>
