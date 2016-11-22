@@ -38,7 +38,19 @@ servo.ChangeDutyCycle(val[8])
 time.sleep(0.5)
 servo.ChangeDutyCycle(val[0])
 time.sleep(0.5)
-
+servo.ChangeDutyCycle(val[8])
+time.sleep(0.5)
+servo.ChangeDutyCycle(val[0])
+time.sleep(0.5)
+servo.ChangeDutyCycle(val[0])
+time.sleep(0.5)
+servo.ChangeDutyCycle(val[8])
+time.sleep(0.5)
+servo.ChangeDutyCycle(val[0])
+time.sleep(0.5)
+servo.ChangeDutyCycle(val[8])
+time.sleep(0.5)
+"""
 while True:
         for i, dc in enumerate(val):
                 servo.ChangeDutyCycle(dc)
@@ -48,3 +60,4 @@ while True:
                 servo.ChangeDutyCycle(dc)
                 print("Angle:" + str(180 - i*22.5)+"  dc = %.4f" % dc) 
                 time.sleep(0.5)
+"""
