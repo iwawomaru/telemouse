@@ -1,20 +1,23 @@
 #!/usr/bin/python
 # coding: utf-8 
 
+import rospy
+from std_msgs.msg import Int16MultiArray
+import os, sys
+
 import RPi.GPIO as GPIO
 import time
 import signal
-import sys 
+
 
 def exit_handler(signal, frame):
-        # Ctrl+Cが押されたときにデバイスを初期状態に戻して終了する。
-        print("\nExit")
-        servo.ChangeDutyCycle(7.0)
-        time.sleep(0.5)
-        servo.stop()
-        GPIO.cleanup()
-	time.sleep(1.)
-        sys.exit(0)
+    print("\nExit")
+    servo.ChangeDutyCycle(7.0)
+    time.sleep(0.5)
+    servo.stop()
+    GPIO.cleanup()
+    time.sleep(1.)
+    sys.exit(0)
 
 # 終了処理用のシグナルハンドラを準備
 signal.signal(signal.SIGINT, exit_handler)
@@ -34,12 +37,30 @@ servo.start(0.0)
 val = [2.5,3.6875,4.875,6.0625,7.25,8.4375,9.625,10.8125,12]
 val = [4.875,6.0625,7.25,8.4375,9.625]
 val = [5., 6., 7., 8., 9.,]
+
+RIGHT = 6.
+CENTER = 7.
+LEFT = 8.
+
+f_right = False
+f_left = False
+f_center = False
+
+def callback(array):
+    pos_id = np.argmax(array.data)
+    f_right = ((pos_id == 2) or (pos_id == 5) or (pos_id == 8))
+    f_center = ((pos_id == 1) or (pos_id == 4) or (pos_id == 7))
+    f_left = ((pos_id == 0) or (pos_id == 3) or (pos_id == 6))
+
+
 while True:
-        for i, dc in enumerate(val):
-                servo.ChangeDutyCycle(dc)
-                print("Angle:" + str(i*22.5)+"  dc = %.4f" % dc) 
-                time.sleep(0.5)
-        for i, dc in enumerate( reversed(val) ):
-                servo.ChangeDutyCycle(dc)
-                print("Angle:" + str(180 - i*22.5)+"  dc = %.4f" % dc) 
-                time.sleep(0.5)
+    if f_right:
+        servo.ChangeDutyCycle(RIGHT)
+        time.sleep(0.5)
+    if f_center
+        servo.ChangeDutyCycle(CENTER)
+        time.sleep(0.5)        
+    if f_left:
+        servo.ChangeDutyCycle(LEFT)
+        time.sleep(0.5)        
+
