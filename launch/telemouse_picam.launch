@@ -1,6 +1,6 @@
 <launch>
 
-  <node name="raspicam" pkg="raspicam" type="raspicam_node />
+  <node name="raspicam" pkg="raspicam" type="raspicam_node" />
 
   <!-- arecord -l will show available input devices, use the car number as
       the first number and the subdevice number as the second in a string
@@ -19,6 +19,6 @@
   </node>
   </group>
 
-  <node name="telemouse_face" pkg="telemouse" type="telemouse_face.py"/>
+  <!--node name="telemouse_face" pkg="telemouse" type="telemouse_face.py"/-->
 
 </launch>

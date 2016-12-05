@@ -57,7 +57,7 @@ while True:
     if f_right:
         servo.ChangeDutyCycle(RIGHT)
         time.sleep(0.5)
-    if f_center
+    if f_center:
         servo.ChangeDutyCycle(CENTER)
         time.sleep(0.5)        
     if f_left:

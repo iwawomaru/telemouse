@@ -25,7 +25,7 @@ gp_out = 21
 
 GPIO.setup(gp_out, GPIO.OUT)
 # pwm = GPIO.PWM([チャンネル], [周波数(Hz)])
-servo = GPIO.PWM(gp_out, 500) 
+servo = GPIO.PWM(gp_out, 50) 
 
 # 初期化
 servo.start(0.0)
@@ -38,13 +38,14 @@ CENTER = 7.0
 LEFT = 9.5
 
 while True:
+    print "reset"
     servo.ChangeDutyCycle(RIGHT)
-    time.sleep(1.0)
+    time.sleep(0.5)
 
     servo.ChangeDutyCycle(CENTER)
-    time.sleep(1.0)
+    time.sleep(0.5)
 
     servo.ChangeDutyCycle(LEFT)
-    time.sleep(1.0)
+    time.sleep(0.5)
     
 
