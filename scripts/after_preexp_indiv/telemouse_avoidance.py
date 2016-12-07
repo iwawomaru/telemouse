@@ -2,6 +2,11 @@
 import rospy
 from std_msgs.msg import Int16
 
+import wiringpi2
+
+import signal
+import sys
+
 import os, sys
 import numpy as np
 
@@ -17,12 +22,47 @@ class Avoidance(object):
         pygame.mixer.init()
         self.hit_sound = pygame.mixer.Sound("n_418d125.wav")
 
-    def callback(self, disconfort):
+        signal.signal(signal.SIGINT, self.exit_handler)
 
+        self.gp_out = 18
+        wiringpi2.wiringPiSetupGpio()
+        wiringpi2.pinMode(self.gp_out, wiringpi2.GPIO.PWM_OUTPUT)
+        wiringpi2.pwmSetMode(wiringpi2.GPIO.PWM_MODE_MS)
+        wiringpi2.pwmSetClock(375)
+
+        self.RIGHT = 56
+        self.CENTER = 76
+        self.LEFT = 96
+
+        self.rest_counter = 0
+
+    def exit_handler(self, signal, frame):
+        print ("\nExit")
+        wiringpi2.pwmWrite(self.gp_out, self.CENTER)
+        wiringpi2.delay(500)
+        sys.exit(0)
+
+
+    def callback(self, disconfort):
         if disconfort.data == 1:
-            
+
+            if self.rest_counter < 200:
+                return
+
             self.hit_sound.play()
-    
+
+            wiringpi2.pwmWrite(self.gp_out, self.LEFT)
+            wiringpi2.delay(500)
+            wiringpi2.pwmWrite(self.gp_out, self.RIGHT)
+            wiringpi2.delay(500)
+            wiringpi2.pwmWrite(self.gp_out, self.CENTER)
+            wiringpi2.delay(500)
+
+            self.rest_counter = 0
+
+        else:
+            self.rest_counter += 1
+
 if __name__ == "__main__":
     obj = Avoidance()
     rospy.spin()
