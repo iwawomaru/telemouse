@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import rospy
 from std_msgs.msg import Int16
+from std_serv.srv import Empty
 
 import wiringpi2
 
@@ -45,10 +46,17 @@ class Avoidance(object):
 
     def callback(self, disconfort):
         if disconfort.data == 1:
-
             if self.rest_counter < 200:
                 return
 
+            rospy.wait_for_service("serv_off")
+            try:
+                soff = rospy.ServiceProxy("serv_off", Empty)
+                soff()
+            except rospy.ServiceException, e:
+                print "Service call failed: %s" % e
+                
+                
             self.hit_sound.play()
 
             wiringpi2.pwmWrite(self.gp_out, self.LEFT)
@@ -57,6 +65,12 @@ class Avoidance(object):
             wiringpi2.delay(500)
             wiringpi2.pwmWrite(self.gp_out, self.CENTER)
             wiringpi2.delay(500)
+
+            try:
+                son = rospy.ServiceProxy("serv_on", Empty)
+                son()
+            except rospy.ServiceException, e:
+                print "Service call failed: %s" % e
 
             self.rest_counter = 0
 
