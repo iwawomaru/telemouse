@@ -15,7 +15,7 @@ import pygame
 
 class Avoidance(object):
 
-    def __init__(self, node_name="avoidance_node"):
+    def __init__(self, node_name="telemouse_avoidance"):
 
         rospy.init_node(node_name)
         sub = rospy.Subscriber("disconfort", Int16, self.callback)
