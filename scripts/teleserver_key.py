@@ -41,6 +41,7 @@ while not rospy.is_shutdown():
             
             if event.key == K_SPACE:
                 disconf.data = 1
+                rospy.loginfo("user disconf")
 
         if event.type == KEYUP:
             pos = [1, 1]
