@@ -25,7 +25,7 @@ signal.signal(signal.SIGINT, exit_handler)
 GPIO.setmode(GPIO.BCM)
 
 # GPIO 21番を使用
-gp_out = 21
+gp_out = 18
 
 GPIO.setup(gp_out, GPIO.OUT)
 # pwm = GPIO.PWM([チャンネル], [周波数(Hz)])

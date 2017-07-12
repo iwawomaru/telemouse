@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import rospy
 from std_msgs.msg import Int16
-from std_serv.srv import Empty
+from std_srvs.srv import Empty
 
 import wiringpi2
 
@@ -15,13 +15,14 @@ import pygame
 
 class Avoidance(object):
 
-    def __init__(self, node_name="avoidance_node"):
+    def __init__(self, node_name="telemouse_avoidance"):
 
         rospy.init_node(node_name)
         sub = rospy.Subscriber("disconfort", Int16, self.callback)
+        rospy.loginfo("telemouse disconfort setup")
       
         pygame.mixer.init()
-        self.hit_sound = pygame.mixer.Sound("n_418d125.wav")
+        self.hit_sound = pygame.mixer.Sound("/home/ubuntu/ros_catkin_ws/src/telemouse/scripts/after_preexp_indiv/n_418d125.wav")
 
         signal.signal(signal.SIGINT, self.exit_handler)
 
@@ -46,16 +47,18 @@ class Avoidance(object):
 
     def callback(self, disconfort):
         if disconfort.data == 1:
-            if self.rest_counter < 200:
-                return
-
-            rospy.wait_for_service("serv_off")
+            rospy.loginfo("telemouse feel disconfort")
+            # if self.rest_counter < 200:
+            #     return
+            rospy.loginfo("telemouse feel disconfort!!!")
+            """
+            rospy.wait_for_service("/audio_mp3/audio_capture/off")
             try:
-                soff = rospy.ServiceProxy("serv_off", Empty)
+                soff = rospy.ServiceProxy("/audio_mp3/audio_capture/off", Empty)
                 soff()
             except rospy.ServiceException, e:
                 print "Service call failed: %s" % e
-                
+            """    
                 
             self.hit_sound.play()
 
@@ -66,12 +69,14 @@ class Avoidance(object):
             wiringpi2.pwmWrite(self.gp_out, self.CENTER)
             wiringpi2.delay(500)
 
+            """
+            rospy.wait_for_service("/audio_mp3/audio_capture/on")
             try:
-                son = rospy.ServiceProxy("serv_on", Empty)
+                son = rospy.ServiceProxy("/audio_mp3/audio_capture/on", Empty)
                 son()
             except rospy.ServiceException, e:
                 print "Service call failed: %s" % e
-
+            """
             self.rest_counter = 0
 
         else:

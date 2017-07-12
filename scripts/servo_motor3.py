@@ -1,4 +1,3 @@
-
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
@@ -22,9 +21,11 @@ signal.signal(signal.SIGINT, exit_handler)
 GPIO.setmode(GPIO.BCM)
 
 # GPIO 12番を使用 (PWM 0)
-GPIO.setup(12, GPIO.OUT)
+# GPIO.setup(12, GPIO.OUT)
+GPIO.setup(18, GPIO.OUT)
 # 20ms / 50Hzに設定、らしい
-servo = GPIO.PWM(12, 50)
+# servo = GPIO.PWM(12, 50)
+servo = GPIO.PWM(18, 50)
 
 # 初期化
 servo.start(0.0)
