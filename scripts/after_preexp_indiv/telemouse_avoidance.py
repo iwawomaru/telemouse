@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import rospy
 from std_msgs.msg import Int16
-from std_serv.srv import Empty
+from std_srvs.srv import Empty
 
 import wiringpi2
 
@@ -46,6 +46,7 @@ class Avoidance(object):
 
     def callback(self, disconfort):
         if disconfort.data == 1:
+            """
             if self.rest_counter < 200:
                 return
 
@@ -58,7 +59,7 @@ class Avoidance(object):
                 
                 
             self.hit_sound.play()
-
+            """
             wiringpi2.pwmWrite(self.gp_out, self.LEFT)
             wiringpi2.delay(500)
             wiringpi2.pwmWrite(self.gp_out, self.RIGHT)
